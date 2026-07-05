@@ -97,7 +97,7 @@ export default function LoadingScreen({
 
       </div>
 
-      <div className="relative flex items-center gap-24">
+      <div className="relative flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-24 px-6">
         
         {/* LEFT SIDE */}
 
@@ -105,7 +105,7 @@ export default function LoadingScreen({
 
           {/* Circular Loader */}
 
-          <div className="relative w-[320px] h-[320px]">
+          <div className="relative w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] lg:w-[320px] lg:h-[320px]">
 
             <svg
               width="320"
@@ -488,7 +488,7 @@ export default function LoadingScreen({
             className="
               relative
               z-20
-              w-[420px]
+              w-[180px] sm:w-[240px] md:w-[320px] lg:w-[420px] xl:w-[480px]
               select-none
               drop-shadow-[0_0_45px_rgba(34,211,238,0.55)]"
           />
