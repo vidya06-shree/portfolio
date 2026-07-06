@@ -1,554 +1,271 @@
+import React, { useEffect, useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import animeGirl from "../../assets/anime_girl.png";
 
-import {
-  motion,
-  animate,
-  useMotionValue,
-  useTransform,
-} from "framer-motion";
-
-import { useEffect, useState } from "react";
-
 interface LoadingScreenProps {
-  isLoading: boolean;
+  onComplete?: () => void;
 }
 
-export default function LoadingScreen({
-  isLoading,
-}: LoadingScreenProps) {
-
-  const progress = useMotionValue(0);
+const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
+  const [progress, setProgress] = useState(0);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    if (!isLoading) return;
+    let value = 0;
 
-    const controls = animate(progress, 100, {
-  duration: 4,
-  ease: "easeInOut",
-  onUpdate(value) {
-    setPercentage(Math.round(value));
-  },});
+    const interval = window.setInterval(() => {
+      value += 1;
+      setProgress(value);
 
-    return controls.stop;
-  }, [isLoading]);
+      if (value >= 100) {
+        clearInterval(interval);
 
-  const [percentage, setPercentage] = useState(0);
+        setTimeout(() => {
+          setVisible(false);
 
-  const radius = 120;
-  const circumference = 2 * Math.PI * radius;
+          setTimeout(() => {
+            onComplete?.();
+          }, 600);
+        }, 400);
+      }
+    }, 28);
+
+    return () => clearInterval(interval);
+  }, [onComplete]);
+
+  const circumference = useMemo(() => 2 * Math.PI * 70, []);
+  const dashOffset = circumference - (progress / 100) * circumference;
+
+  const letters = "VIDYASHREE".split("");
 
   return (
-    <motion.div
-      initial={{ opacity: 1 }}
-      animate={{
-        opacity: isLoading ? 1 : 0,
-      }}
-      transition={{
-        duration: 0.6,
-      }}
-      style={{
-        pointerEvents: isLoading ? "auto" : "none",
-      }}
-      className="fixed inset-0 z-[9999] overflow-hidden bg-[#040816] flex items-center justify-center"
-    >
-
-      {/* Background Glow */}
-
-      <div className="absolute inset-0 overflow-hidden">
-
+    <AnimatePresence>
+      {visible && (
         <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.15, 0.3, 0.15],
-          }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-          }}
-          className="absolute
-          -left-36
-          top-1/2
-          -translate-y-1/2
-          w-[520px]
-          h-[520px]
-          rounded-full
-          bg-cyan-500
-          blur-[180px]"
-        />
-
-        <motion.div
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.15, 0.35, 0.15],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-          }}
-          className="absolute
-          right-[-180px]
-          bottom-[-120px]
-          w-[480px]
-          h-[480px]
-          rounded-full
-          bg-blue-600
-          blur-[180px]"
-        />
-
-      </div>
-
-      <div className="relative flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-24 px-6">
-        
-        {/* LEFT SIDE */}
-
-        <div className="flex flex-col items-center">
-
-          {/* Circular Loader */}
-
-          <div className="relative w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] lg:w-[320px] lg:h-[320px]">
-
-            <svg
-              width="320"
-              height="320"
-              className="-rotate-90"
-            >
-
-              <defs>
-
-                <linearGradient
-                  id="ringGradient"
-                  x1="0%"
-                  y1="0%"
-                  x2="100%"
-                  y2="100%"
-                >
-                  <stop
-                    offset="0%"
-                    stopColor="#3EF5FF"
-                  />
-
-                  <stop
-                    offset="50%"
-                    stopColor="#22D3EE"
-                  />
-
-                  <stop
-                    offset="100%"
-                    stopColor="#2563EB"
-                  />
-
-                </linearGradient>
-
-                <filter id="ringGlow">
-
-                  <feGaussianBlur
-                    stdDeviation="8"
-                    result="blur"
-                  />
-
-                  <feMerge>
-
-                    <feMergeNode in="blur" />
-
-                    <feMergeNode in="SourceGraphic" />
-
-                  </feMerge>
-
-                </filter>
-
-              </defs>
-
-              {/* Track */}
-
-              <circle
-                cx="160"
-                cy="160"
-                r={radius}
-                fill="none"
-                stroke="#16324C"
-                strokeWidth="8"
-              />
-
-              {/* Progress */}
-
-              <motion.circle
-                cx="160"
-                cy="160"
-                r={radius}
-                fill="none"
-                stroke="url(#ringGradient)"
-                strokeWidth="8"
-                strokeLinecap="round"
-                filter="url(#ringGlow)"
-                style={{
-                  strokeDasharray: circumference,
-                  strokeDashoffset: useTransform(
-                    progress,
-                    (value) =>
-                      circumference -
-                      (value / 100) * circumference
-                  ),
-                }}
-              />
-
-            </svg>
-
-            {/* Rotating Dot */}
-
+          className="fixed inset-0 z-[9999] overflow-hidden bg-[#020817]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          {/* Background */}
+          <div className="absolute inset-0 overflow-hidden">
             <motion.div
+              className="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-cyan-500/20 blur-[140px]"
               animate={{
-                rotate: 360,
+                x: [0, 80, 0],
+                y: [0, 60, 0],
+                scale: [1, 1.2, 1],
               }}
               transition={{
-                duration: 4,
+                duration: 10,
                 repeat: Infinity,
-                ease: "linear",
+                ease: "easeInOut",
               }}
-              className="absolute inset-0"
-            >
+            />
 
-              <div
-                className="
-                absolute
-                left-1/2
-                top-[35px]
-                -translate-x-1/2
-                w-5
-                h-5
-                rounded-full
-                bg-cyan-200
-                shadow-[0_0_25px_#22d3ee]"
-              />
+            <motion.div
+              className="absolute -right-40 bottom-0 h-[32rem] w-[32rem] rounded-full bg-blue-600/20 blur-[170px]"
+              animate={{
+                x: [0, -70, 0],
+                y: [0, -60, 0],
+                scale: [1, 1.15, 1],
+              }}
+              transition={{
+                duration: 11,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
 
-            </motion.div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.08),transparent_70%)]" />
 
-            {/* Center */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px]" />
+          </div>
 
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-                            {/* Percentage */}
-              <motion.h1
-                className="
-                text-[78px]
-                font-light
-                leading-none
-                bg-gradient-to-r
-                from-cyan-300
-                via-sky-400
-                to-blue-500
-                bg-clip-text
-                text-transparent"
-              >
-                {percentage}
-                <span className="text-4xl align-top ml-1">%</span>
-              </motion.h1>
-
-              {/* Loading Text */}
-              <motion.p
+          {/* Main */}
+          <div className="relative flex h-full w-full flex-col items-center justify-center px-5 py-10 lg:flex-row lg:justify-between lg:px-16 xl:px-24">
+            {/* Left */}
+            <div className="flex w-full max-w-xl flex-col items-center lg:items-start">
+              <motion.div
+                initial={{ scale: 0.9 }}
                 animate={{
-                  opacity: [0.4, 1, 0.4],
-                  letterSpacing: ["0.35em", "0.45em", "0.35em"],
+                  scale: [1, 1.03, 1],
                 }}
                 transition={{
-                  duration: 2,
                   repeat: Infinity,
+                  duration: 2,
                 }}
-                className="mt-4 text-cyan-300 text-lg font-medium"
+                className="relative"
+              >
+                {/* Glow */}
+                <motion.div
+                  className="absolute inset-0 rounded-full bg-cyan-400/20 blur-3xl"
+                  animate={{
+                    opacity: [0.5, 1, 0.5],
+                    scale: [0.95, 1.15, 0.95],
+                  }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 2,
+                  }}
+                />
+
+                <svg
+                  className="relative h-44 w-44 sm:h-52 sm:w-52"
+                  viewBox="0 0 180 180"
+                >
+                  <circle
+                    cx="90"
+                    cy="90"
+                    r="70"
+                    stroke="rgba(255,255,255,0.08)"
+                    strokeWidth="10"
+                    fill="transparent"
+                  />
+
+                  <motion.circle
+                    cx="90"
+                    cy="90"
+                    r="70"
+                    fill="transparent"
+                    stroke="#38bdf8"
+                    strokeWidth="10"
+                    strokeLinecap="round"
+                    strokeDasharray={circumference}
+                    strokeDashoffset={dashOffset}
+                    style={{
+                      filter: "drop-shadow(0px 0px 12px #38bdf8)",
+                      rotate: "-90deg",
+                      transformOrigin: "50% 50%",
+                    }}
+                    animate={{
+                      strokeDashoffset: dashOffset,
+                    }}
+                    transition={{
+                      duration: 0.25,
+                      ease: "easeOut",
+                    }}
+                  />
+                </svg>
+
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <motion.span
+                    className="text-4xl font-bold text-cyan-300 sm:text-5xl"
+                    animate={{
+                      opacity: [0.8, 1, 0.8],
+                    }}
+                    transition={{
+                      duration: 1.2,
+                      repeat: Infinity,
+                    }}
+                  >
+                    {progress}%
+                  </motion.span>
+                </div>
+              </motion.div>
+
+              <motion.h2
+                className="mt-8 text-xl font-semibold tracking-[0.45em] text-cyan-300 sm:text-2xl"
+                animate={{
+                  opacity: [0.45, 1, 0.45],
+                }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 1.4,
+                }}
               >
                 LOADING...
-              </motion.p>
+              </motion.h2>
 
-            </div>
-
-
-          </div>
-
-          {/* ===========================
-              NAME
-          =========================== */}
-
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 20,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              delay: 0.4,
-              duration: 0.8,
-            }}
-            className="mt-8 flex"
-          >
-
-            {"VIDYASHREE".split("").map((letter, index) => (
-
-              <motion.span
-                key={index}
-                animate={{
-                  opacity: [0.5, 1, 0.5],
-                  y: [0, -4, 0],
-                  textShadow: [
-                    "0 0 5px #22d3ee",
-                    "0 0 20px #38bdf8",
-                    "0 0 5px #22d3ee",
-                  ],
-                }}
-                transition={{
-                  duration: 2,
-                  delay: index * 0.08,
-                  repeat: Infinity,
-                }}
-                className="
-                mx-[2px]
-                text-[48px]
-                font-semibold
-                tracking-[0.22em]
-                bg-gradient-to-r
-                from-cyan-300
-                via-sky-400
-                to-blue-500
-                bg-clip-text
-                text-transparent
-                select-none"
-              >
-                {letter}
-              </motion.span>
-
-            ))}
-
-          </motion.div>
-
-          {/* ===========================
-              LOADING BAR
-          =========================== */}
-
-          <div className="relative mt-10 w-[420px] h-[4px] rounded-full overflow-hidden">
-
-            {/* Track */}
-            <div className="absolute inset-0 bg-[#18344E]" />
-
-            {/* Gradient */}
-            <div
-              className="
-              absolute
-              inset-0
-              bg-gradient-to-r
-              from-cyan-400
-              via-sky-400
-              to-blue-600"
-            />
-
-            {/* Glow */}
-            <motion.div
-              animate={{
-                x: [-80, 420],
-              }}
-              transition={{
-                duration: 1.6,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              className="
-              absolute
-              top-1/2
-              -translate-y-1/2
-              w-20
-              h-7
-              rounded-full
-              bg-cyan-300
-              blur-xl"
-            />
-
-            {/* Dot */}
-            <motion.div
-              animate={{
-                x: [-8, 420],
-              }}
-              transition={{
-                duration: 1.6,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              className="
-              absolute
-              top-1/2
-              -translate-y-1/2
-              w-3
-              h-3
-              rounded-full
-              bg-white
-              shadow-[0_0_20px_#22d3ee]"
-            />
-
-          </div>
-
-        </div>
-                {/* ===========================
-            RIGHT SIDE - ANIME GIRL
-        =========================== */}
-
-        <motion.div
-          initial={{
-            opacity: 0,
-            x: 80,
-            scale: 0.9,
-          }}
-          animate={{
-            opacity: 1,
-            x: 0,
-            scale: 1,
-            y: [0, -12, 0],
-          }}
-          transition={{
-            opacity: {
-              duration: 0.8,
-              delay: 0.4,
-            },
-            x: {
-              duration: 0.8,
-              delay: 0.4,
-            },
-            scale: {
-              duration: 0.8,
-              delay: 0.4,
-            },
-            y: {
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut",
-            },
-          }}
-          className="relative flex items-center justify-center"
-        >
-
-          {/* Main Glow */}
-
-          <motion.div
-            animate={{
-              scale: [1, 1.15, 1],
-              opacity: [0.18, 0.4, 0.18],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-            }}
-            className="
-              absolute
-              w-[430px]
-              h-[430px]
-              rounded-full
-              bg-cyan-400
-              blur-[140px]"
-          />
-
-          {/* Secondary Glow */}
-
-          <motion.div
-            animate={{
-              scale: [1.15, 1, 1.15],
-              opacity: [0.15, 0.28, 0.15],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-            }}
-            className="
-              absolute
-              w-[320px]
-              h-[320px]
-              rounded-full
-              bg-blue-600
-              blur-[120px]"
-          />
-
-          {/* Anime Girl */}
-
-          <motion.img
-            src={animeGirl}
-            alt="Anime Girl"
-            draggable={false}
-            animate={{
-              y: [0, -12, 0],
-              rotate: [-1.5, 1.5, -1.5],
-            }}
-            transition={{
-              y: {
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              },
-              rotate: {
-                duration: 6,
-                repeat: Infinity,
-                ease: "easeInOut",
-              },
-            }}
-            className="
-              relative
-              z-20
-              w-[180px] sm:w-[240px] md:w-[320px] lg:w-[420px] xl:w-[480px]
-              select-none
-              drop-shadow-[0_0_45px_rgba(34,211,238,0.55)]"
-          />
-
-          {/* Floating Circles */}
-
-          {[...Array(12)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute rounded-full bg-cyan-300"
-              style={{
-                width: `${5 + Math.random() * 6}px`,
-                height: `${5 + Math.random() * 6}px`,
-                left: `${15 + Math.random() * 70}%`,
-                top: `${10 + Math.random() * 75}%`,
-                boxShadow: "0 0 18px #22d3ee",
-              }}
-              animate={{
-                y: [0, -30, 0],
-                opacity: [0, 1, 0],
-                scale: [1, 1.4, 1],
-              }}
-              transition={{
-                duration: 2.5 + Math.random() * 2,
-                repeat: Infinity,
-                delay: i * 0.25,
-              }}
-            />
-          ))}
-
-        </motion.div>
-
-        {/* ===========================
-            BACKGROUND PARTICLES
-        =========================== */}
-
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={`particle-${i}`}
-            className="absolute rounded-full bg-cyan-300"
-            style={{
-              width: `${2 + Math.random() * 4}px`,
-              height: `${2 + Math.random() * 4}px`,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -50, 0],
-              opacity: [0.15, 0.8, 0.15],
-              scale: [1, 1.5, 1],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 3,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
+              <div className="mt-7 w-full max-w-md">
+                <div className="h-3 overflow-hidden rounded-full bg-white/10">
+                  <motion.div
+                    className="h-full rounded-full bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 shadow-[0_0_25px_#38bdf8]"
+                    animate={{
+                      width: `${progress}%`,
+                    }}
+                    transition={{
+                      duration: 0.2,
+                    }}
+                  />
+                </div>
               </div>
 
-    </motion.div>
+              <div className="mt-10 flex flex-wrap justify-center gap-1 lg:justify-start">
+                {letters.map((letter, index) => (
+                  <motion.span
+                    key={index}
+                    className="text-xl font-bold tracking-wider text-cyan-200 sm:text-2xl md:text-3xl"
+                    animate={{
+                      opacity: [0.5, 1, 0.5],
+                      y: [0, -5, 0],
+                      textShadow: [
+                        "0 0 8px #38bdf8",
+                        "0 0 18px #67e8f9",
+                        "0 0 8px #38bdf8",
+                      ],
+                    }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 1.6,
+                      delay: index * 0.08,
+                    }}
+                  >
+                    {letter}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
+
+            {/* Right */}
+            <div className="mt-12 flex w-full items-center justify-center lg:mt-0 lg:w-auto">
+              <motion.div
+                className="relative"
+                animate={{
+                  y: [0, -18, 0],
+                }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 3.5,
+                  ease: "easeInOut",
+                }}
+              >
+                <motion.div
+                  className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-400/20 blur-[90px] sm:h-80 sm:w-80 lg:h-[26rem] lg:w-[26rem]"
+                  animate={{
+                    opacity: [0.45, 0.95, 0.45],
+                    scale: [1, 1.1, 1],
+                  }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 2.5,
+                  }}
+                />
+
+                <motion.img
+                  src={animeGirl}
+                  alt="Anime Girl"
+                  className="relative z-10 h-64 w-auto object-contain sm:h-80 md:h-[24rem] lg:h-[30rem] xl:h-[36rem] 2xl:h-[42rem] max-w-full"
+                  animate={{
+                    filter: [
+                      "drop-shadow(0px 0px 12px rgba(56,189,248,0.45))",
+                      "drop-shadow(0px 0px 30px rgba(56,189,248,0.95))",
+                      "drop-shadow(0px 0px 12px rgba(56,189,248,0.45))",
+                    ],
+                  }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 2.5,
+                  }}
+                />
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
-}
+};
+
+export default LoadingScreen;
