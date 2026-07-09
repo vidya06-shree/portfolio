@@ -267,5 +267,4 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
     </AnimatePresence>
   );
 };
-
 export default LoadingScreen;

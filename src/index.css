@@ -149,8 +149,45 @@
     transition-duration: 0.01ms !important;
   }
 }
+@keyframes waveMoveReverse {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes waveMoveReverse {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-wave-reverse {
+  animation: waveMoveReverse 26s linear infinite;
+}
+
+.animate-wave-reverse {
+  animation: waveMoveReverse 26s linear infinite;
+}
 
 /* Canvas optimization */
 canvas {
   touch-action: none;
+}
+@keyframes waveMove {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-wave {
+  animation: waveMove 18s linear infinite;
 }
