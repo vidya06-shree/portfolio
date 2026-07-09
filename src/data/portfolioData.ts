@@ -6,7 +6,7 @@ export const personalInfo = {
   location: "India",
   github: "https://github.com/vidyadhree",
   linkedin: "https://linkedin.com/in/vidyadhree",
-  resume: "/resume.pdf",
+  resume: "vidya_resume.pdf",
   about: `I am a passionate BCA graduate with strong problem-solving and communication skills. I have hands-on experience building full-stack applications using MongoDB, Express.js, React.js, and Node.js. I enjoy creating scalable web applications and continuously learning modern technologies.`,
   avatar: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=600",
 };
