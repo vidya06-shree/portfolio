@@ -213,21 +213,21 @@ export default function Hero() {
         className="pointer-events-none absolute z-0 h-[360px] w-[360px] rounded-full bg-cyan-400/15 blur-[140px]"
       />
       {/* 3D Background */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 z-0">
         <ThreeScene />
       </div>
       {/* Floating Code Symbols */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-[1]">
         <FloatingCodeSymbols />
       </div>
  
       {/* Gradient Overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/30 to-slate-950 pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-r from-slate-950/40 via-transparent to-slate-950/40 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/30 to-slate-950 pointer-events-none z-[2]" />
+      <div className="absolute inset-0 bg-gradient-to-r from-slate-950/40 via-transparent to-slate-950/40 pointer-events-none z-[2]" />
  
       {/* Decorative Elements */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500/30 rounded-full blur-[110px] animate-pulse" />
-      <div className="absolute bottom-20 right-10 w-72 h-72 bg-blue-500/30 rounded-full blur-[110px] animate-pulse delay-1000" />
+      <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500/30 rounded-full blur-[110px] animate-pulse z-[2]" />
+      <div className="absolute bottom-20 right-10 w-72 h-72 bg-blue-500/30 rounded-full blur-[110px] animate-pulse delay-1000 z-[2]" />
  
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-32">
@@ -488,40 +488,40 @@ console.log('Building the future, one line at a time.');
       </div>
  
       {/* Animated Wave Mesh */}
-<div className="absolute bottom-0 left-0 w-full h-48 sm:h-56 pointer-events-none overflow-hidden z-[3] backdrop-blur-md">
-  {/* Glass wash */}
-  <div className="absolute inset-0 bg-gradient-to-t from-white/[0.04] via-white/[0.02] to-transparent" />
-
-  <svg
-    className="animate-wave-reverse absolute bottom-0 w-[200%] h-full"
-    viewBox="0 0 2880 320"
-    preserveAspectRatio="none"
-    style={{ animationDelay: '-9s' }}
-  >
-    <path
-      fill="rgba(59,130,246,0.22)"
-      d="M0,190 C60,190 120,230 180,230 C240,230 300,190 360,190 C420,190 480,150 540,150 C600,150 660,190 720,190 C780,190 840,230 900,230 C960,230 1020,190 1080,190 C1140,190 1200,150 1260,150 C1320,150 1380,190 1440,190 C1500,190 1560,230 1620,230 C1680,230 1740,190 1800,190 C1860,190 1920,150 1980,150 C2040,150 2100,190 2160,190 C2220,190 2280,230 2340,230 C2400,230 2460,190 2520,190 C2580,190 2640,150 2700,150 C2760,150 2820,190 2880,190 L2880,320 L0,320 Z"
-    />
-  </svg>
-
-  <svg
-    className="animate-wave absolute bottom-0 w-[200%] h-full"
-    viewBox="0 0 2880 320"
-    preserveAspectRatio="none"
-  >
-    <path
-      fill="rgba(34,211,238,0.32)"
-      d="M0,210 C60,210 120,170 180,170 C240,170 300,210 360,210 C420,210 480,250 540,250 C600,250 660,210 720,210 C780,210 840,170 900,170 C960,170 1020,210 1080,210 C1140,210 1200,250 1260,250 C1320,250 1380,210 1440,210 C1500,210 1560,170 1620,170 C1680,170 1740,210 1800,210 C1860,210 1920,250 1980,250 C2040,250 2100,210 2160,210 C2220,210 2280,170 2340,170 C2400,170 2460,210 2520,210 C2580,210 2640,250 2700,250 C2760,250 2820,210 2880,210 L2880,320 L0,320 Z"
-    />
-    {/* Glass rim highlight on top edge */}
-    <path
-      fill="none"
-      stroke="rgba(255,255,255,0.35)"
-      strokeWidth="2"
-      d="M0,210 C60,210 120,170 180,170 C240,170 300,210 360,210 C420,210 480,250 540,250 C600,250 660,210 720,210 C780,210 840,170 900,170 C960,170 1020,210 1080,210 C1140,210 1200,250 1260,250 C1320,250 1380,210 1440,210 C1500,210 1560,170 1620,170 C1680,170 1740,210 1800,210 C1860,210 1920,250 1980,250 C2040,250 2100,210 2160,210 C2220,210 2280,170 2340,170 C2400,170 2460,210 2520,210 C2580,210 2640,250 2700,250 C2760,250 2820,210 2880,210"
-    />
-  </svg>
-</div>
+      <div className="absolute bottom-0 left-0 w-full h-48 sm:h-56 pointer-events-none overflow-hidden z-[3] backdrop-blur-md">
+        {/* Glass wash */}
+        <div className="absolute inset-0 bg-gradient-to-t from-white/[0.04] via-white/[0.02] to-transparent" />
+ 
+        <svg
+          className="animate-wave-reverse absolute bottom-0 w-[200%] h-full"
+          viewBox="0 0 2880 320"
+          preserveAspectRatio="none"
+          style={{ animationDelay: '-9s' }}
+        >
+          <path
+            fill="rgba(59,130,246,0.22)"
+            d="M0,190 C60,190 120,230 180,230 C240,230 300,190 360,190 C420,190 480,150 540,150 C600,150 660,190 720,190 C780,190 840,230 900,230 C960,230 1020,190 1080,190 C1140,190 1200,150 1260,150 C1320,150 1380,190 1440,190 C1500,190 1560,230 1620,230 C1680,230 1740,190 1800,190 C1860,190 1920,150 1980,150 C2040,150 2100,190 2160,190 C2220,190 2280,230 2340,230 C2400,230 2460,190 2520,190 C2580,190 2640,150 2700,150 C2760,150 2820,190 2880,190 L2880,320 L0,320 Z"
+          />
+        </svg>
+ 
+        <svg
+          className="animate-wave absolute bottom-0 w-[200%] h-full"
+          viewBox="0 0 2880 320"
+          preserveAspectRatio="none"
+        >
+          <path
+            fill="rgba(34,211,238,0.32)"
+            d="M0,210 C60,210 120,170 180,170 C240,170 300,210 360,210 C420,210 480,250 540,250 C600,250 660,210 720,210 C780,210 840,170 900,170 C960,170 1020,210 1080,210 C1140,210 1200,250 1260,250 C1320,250 1380,210 1440,210 C1500,210 1560,170 1620,170 C1680,170 1740,210 1800,210 C1860,210 1920,250 1980,250 C2040,250 2100,210 2160,210 C2220,210 2280,170 2340,170 C2400,170 2460,210 2520,210 C2580,210 2640,250 2700,250 C2760,250 2820,210 2880,210 L2880,320 L0,320 Z"
+          />
+          {/* Glass rim highlight on top edge */}
+          <path
+            fill="none"
+            stroke="rgba(255,255,255,0.35)"
+            strokeWidth="2"
+            d="M0,210 C60,210 120,170 180,170 C240,170 300,210 360,210 C420,210 480,250 540,250 C600,250 660,210 720,210 C780,210 840,170 900,170 C960,170 1020,210 1080,210 C1140,210 1200,250 1260,250 C1320,250 1380,210 1440,210 C1500,210 1560,170 1620,170 C1680,170 1740,210 1800,210 C1860,210 1920,250 1980,250 C2040,250 2100,210 2160,210 C2220,210 2280,170 2340,170 C2400,170 2460,210 2520,210 C2580,210 2640,250 2700,250 C2760,250 2820,210 2880,210"
+          />
+        </svg>
+      </div>
  
       {/* Scroll Indicator */}
       <motion.div
